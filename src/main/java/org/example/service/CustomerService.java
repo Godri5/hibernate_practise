@@ -5,7 +5,7 @@ import org.example.model.Customer;
 import java.util.List;
 
 public interface CustomerService {
-    public void saveCustomer(Customer customer);
+    public Customer saveCustomer(Customer customer);
 
     public Customer getCustomer(Long id);
 

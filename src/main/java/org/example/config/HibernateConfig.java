@@ -37,18 +37,18 @@ public class HibernateConfig {
     @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/aston_practise_schema");
-        dataSource.setUsername("testuser");
-        dataSource.setPassword("password.123");
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/aston_practise_schema?useUnicode=true");
+        dataSource.setUsername("root");
+        dataSource.setPassword("");
         return dataSource;
     }
 
     private Properties hibernateProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLInnoDBDialect");
         properties.setProperty("hibernate.show_sql", "true");
-        properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.format_sql", "true");
         properties.setProperty("hibernate.generate_ddl", "true");
         return properties;
