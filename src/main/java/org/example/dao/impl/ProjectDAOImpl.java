@@ -1,7 +1,6 @@
-package org.example.dao;
+package org.example.dao.impl;
 
-import org.example.model.Employee;
-import org.example.model.Position;
+import org.example.dao.EntityDAO;
 import org.example.model.Project;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,7 +14,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
-public class PositionDAOImpl implements PositionDAO {
+public class ProjectDAOImpl implements EntityDAO<Project> {
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -25,31 +24,31 @@ public class PositionDAOImpl implements PositionDAO {
     }
 
     @Override
-    public List<Position> getAllPositions() {
+    public List<Project> getAll() {
         Session session = getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<Position> cq = cb.createQuery(Position.class);
-        Root<Position> root = cq.from(Position.class);
+        CriteriaQuery< Project > cq = cb.createQuery(Project.class);
+        Root< Project > root = cq.from(Project.class);
         cq.select(root);
         Query query = session.createQuery(cq);
         return query.getResultList();
     }
 
     @Override
-    public Position getPositionById(Long id) {
-        Position position = getCurrentSession().get(Position.class, id);
-        return position;
+    public Project getById(Long id) {
+        return getCurrentSession().get(Project.class, id);
     }
 
     @Override
-    public void savePosition(Position position) {
-        getCurrentSession().saveOrUpdate(position);
+    public Project save(Project entity) {
+        getCurrentSession().saveOrUpdate(entity);
+        return entity;
     }
 
     @Override
-    public void deletePosition(Long id) {
+    public void deleteById(Long id) {
         Session session = getCurrentSession();
-        Position position = session.byId(Position.class).load(id);
-        session.delete(position);
+        Project project = session.byId(Project.class).load(id);
+        session.delete(project);
     }
 }

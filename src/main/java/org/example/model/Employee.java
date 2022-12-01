@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,10 +20,13 @@ public class Employee {
 
     private String employee_name;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "employees")
-    private List<Project> projects = new ArrayList<>();
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name = "employees_projects",
+            joinColumns = {@JoinColumn(name = "employees_id")},
+            inverseJoinColumns = {@JoinColumn(name = "project_id")})
+    private List<Project> projects;
 
     @OneToMany(mappedBy = "employee")
-    private List<Position> positions = new ArrayList<>();
+    private List<Position> positions;
 
 }

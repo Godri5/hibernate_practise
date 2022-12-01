@@ -13,13 +13,13 @@ import javax.persistence.*;
 public class Position {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+    @Column(name = "position_id", nullable = false)
     private Long id;
 
     private String position_name;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id")
+    @JoinColumn(name = "employees_id")
     private Employee employee;
 
 

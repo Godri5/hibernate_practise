@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DdlMappings">
-    <mapping uuid="9b99be7a-53fb-4472-bfa4-3a79685ea62a" name="aston_practise_schema@localhost Mapping">
-      <data-sources db="b6a2bc14-193b-4b14-8702-7370cfc5a385" ddl="dd8a0d34-f976-406b-9c0b-9f76fe6e38a4" />
+    <mapping uuid="2e95de2e-aafc-4997-be2c-9cf96948bb7c" name="aston_practise_schema@localhost [2] (DDL) Mapping">
+      <data-sources db="90b7e1bf-16fd-498d-aae2-6cba2bbe7abe" ddl="b4c9c473-2b34-4d0c-8f36-73f4e529f4d2" />
       <scope>
-        <node kind="database" qname="@">
-          <node kind="schema" qname="@" />
-        </node>
+        <node kind="schema" qname="aston_practise_schema" />
       </scope>
     </mapping>
+  </component>
+  <component name="SqlDataSourceStorage">
+    <option name="dataSources">
+      <list>
+        <State>
+          <option name="id" value="b4c9c473-2b34-4d0c-8f36-73f4e529f4d2" />
+          <option name="name" value="aston_practise_schema@localhost [2] (DDL)" />
+          <option name="languageId" value="MySQL" />
+          <option name="urls">
+            <array>
+              <option value="file://$PROJECT_DIR$/.." />
+            </array>
+          </option>
+          <option name="outLayout" value="File per object by schema.groovy" />
+        </State>
+      </list>
+    </option>
   </component>
 </project>

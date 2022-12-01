@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/aston_practise_schema</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="aston_practise_schema@localhost [2]" uuid="90b7e1bf-16fd-498d-aae2-6cba2bbe7abe">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/aston_practise_schema</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

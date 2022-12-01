@@ -1,6 +1,7 @@
-package org.example.dao;
+package org.example.dao.impl;
 
-import org.example.model.Project;
+import org.example.dao.EntityDAO;
+import org.example.model.Employee;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
-public class ProjectDAOImpl implements ProjectDAO{
+public class EmployeeDAOImpl implements EntityDAO<Employee> {
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -23,31 +24,31 @@ public class ProjectDAOImpl implements ProjectDAO{
     }
 
     @Override
-    public List<Project> getAllProjects() {
+    public List<Employee> getAll() {
         Session session = getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery< Project > cq = cb.createQuery(Project.class);
-        Root< Project > root = cq.from(Project.class);
+        CriteriaQuery<Employee> cq = cb.createQuery(Employee.class);
+        Root< Employee > root = cq.from(Employee.class);
         cq.select(root);
         Query query = session.createQuery(cq);
         return query.getResultList();
     }
 
     @Override
-    public Project getProjectById(Long id) {
-        Project project = getCurrentSession().get(Project.class, id);
-        return project;
+    public Employee getById(Long id) {
+        return getCurrentSession().get(Employee.class, id);
     }
 
     @Override
-    public void saveProject(Project project) {
-        getCurrentSession().saveOrUpdate(project);
+    public Employee save(Employee entity) {
+        getCurrentSession().saveOrUpdate(entity);
+        return entity;
     }
 
     @Override
-    public void deleteProject(Long id) {
+    public void deleteById(Long id) {
         Session session = getCurrentSession();
-        Project project = session.byId(Project.class).load(id);
-        session.delete(project);
+        Employee employee = session.byId(Employee.class).load(id);
+        session.delete(employee);
     }
 }

@@ -1,9 +1,10 @@
 package org.example.controller;
 
 import org.example.model.Position;
-import org.example.service.PositionService;
+import org.example.service.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,38 +14,31 @@ import java.util.List;
 public class PositionController {
 
     @Autowired
-    private PositionService positionService;
+    private EntityService<Position> positionService;
 
-    @GetMapping("/list")
-    public String listCustomers(Model model) {
-        List<Position> positions = positionService.getAllPositions();
-        model.addAttribute("position", positions);
-        return "list-positions";
+    @RequestMapping(value = "/positions/getAll", method = RequestMethod.GET)
+    public ResponseEntity<List<Position>> getAllPositions() {
+        List<Position> positions = positionService.getAll();
+        return new ResponseEntity<>(positions, HttpStatus.OK);
     }
 
-    @GetMapping("/showForm")
-    public String showFormForAdd(Model model) {
-        Position position = new Position();
-        model.addAttribute("position", position);
-        return "positions-form";
+    @RequestMapping(value = "/positions/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Position> getPositionById(@PathVariable Long id) {
+        Position position = positionService.getById(id);
+        return new ResponseEntity<>(position, HttpStatus.OK);
     }
 
-    @PostMapping("/savePosition")
-    public String saveCustomer(@ModelAttribute("position") Position position) {
-        positionService.savePosition(position);
-        return "redirect:/positions/list";
+
+    @RequestMapping(value = "/positions", method = RequestMethod.POST)
+    public ResponseEntity<Position> addNewPosition(@RequestBody Position position) {
+        Position added = positionService.save(position);
+        return new ResponseEntity<>(added, HttpStatus.CREATED);
     }
 
-    @GetMapping("/updateForm")
-    public String showFormForUpdate(@RequestParam("id") Long id, Model model) {
-        Position position = positionService.getPositionById(id);
-        model.addAttribute("position", position);
-        return "position-form";
-    }
 
-    @GetMapping("/delete")
-    public String deleteCustomer(@RequestParam("id") Long id) {
-        positionService.deletePosition(id);
-        return "redirect:/position/list";
+    @RequestMapping(value = "/positions/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Position> deletePosition(@PathVariable Long id) {
+        positionService.deleteById(id);
+        return new ResponseEntity<>(positionService.getById(id), HttpStatus.NO_CONTENT);
     }
 }

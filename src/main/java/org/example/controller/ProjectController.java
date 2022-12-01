@@ -1,9 +1,10 @@
 package org.example.controller;
 
 import org.example.model.Project;
-import org.example.service.ProjectService;
+import org.example.service.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,39 +14,32 @@ import java.util.List;
 public class ProjectController {
 
     @Autowired
-    private ProjectService projectService;
+    private EntityService<Project> projectService;
 
 
-    @GetMapping("/list")
-    public String listCustomers(Model model) {
-        List<Project> projects = projectService.getAllProjects();
-        model.addAttribute("project", projects);
-        return "list-projects";
+    @RequestMapping(value = "/projects/getAll", method = RequestMethod.GET)
+    public ResponseEntity<List<Project>> getAllPositions() {
+        List<Project> projects = projectService.getAll();
+        return new ResponseEntity<>(projects, HttpStatus.OK);
     }
 
-    @GetMapping("/showForm")
-    public String showFormForAdd(Model model) {
-        Project project = new Project();
-        model.addAttribute("project", project);
-        return "projects-form";
+    @RequestMapping(value = "/projects/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Project> getPositionById(@PathVariable Long id) {
+        Project project = projectService.getById(id);
+        return new ResponseEntity<>(project, HttpStatus.OK);
     }
 
-    @PostMapping("/saveProject")
-    public String saveCustomer(@ModelAttribute("project") Project project) {
-        projectService.saveProject(project);
-        return "redirect:/project/list";
+
+    @RequestMapping(value = "/projects", method = RequestMethod.POST)
+    public ResponseEntity<Project> addNewPosition(@RequestBody Project project) {
+        Project added = projectService.save(project);
+        return new ResponseEntity<>(added, HttpStatus.CREATED);
     }
 
-    @GetMapping("/updateForm")
-    public String showFormForUpdate(@RequestParam("id") Long id, Model model) {
-        Project project = projectService.getProjectById(id);
-        model.addAttribute("project", project);
-        return "project-form";
-    }
 
-    @GetMapping("/delete")
-    public String deleteCustomer(@RequestParam("id") Long id) {
-        projectService.deleteProject(id);
-        return "redirect:/project/list";
+    @RequestMapping(value = "/projects/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Project> deletePosition(@PathVariable Long id) {
+        projectService.deleteById(id);
+        return new ResponseEntity<>(projectService.getById(id), HttpStatus.NO_CONTENT);
     }
 }

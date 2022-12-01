@@ -1,9 +1,10 @@
 package org.example.controller;
 
 import org.example.model.Employee;
-import org.example.service.EmployeeService;
+import org.example.service.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,38 +14,31 @@ import java.util.List;
 public class EmployeeController {
 
     @Autowired
-    private EmployeeService employeeService;
+    private EntityService<Employee> employeeService;
 
-    @GetMapping("/list")
-    public String listCustomers(Model model) {
-        List<Employee> employees = employeeService.getAllEmployees();
-        model.addAttribute("employee", employees);
-        return "list-employees";
+    @RequestMapping(value = "/employees/getAll", method = RequestMethod.GET)
+    public ResponseEntity<List<Employee>> getAllEmployees() {
+        List<Employee> employees = employeeService.getAll();
+        return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
-    @GetMapping("/showForm")
-    public String showFormForAdd(Model model) {
-        Employee employee = new Employee();
-        model.addAttribute("employee", employee);
-        return "employee-form";
+    @RequestMapping(value = "/employees/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
+        Employee employee = employeeService.getById(id);
+        return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
-    @PostMapping("/saveEmployee")
-    public String saveCustomer(@ModelAttribute("employee") Employee employee) {
-        employeeService.saveEmployee(employee);
-        return "redirect:/employee/list";
+
+    @RequestMapping(value = "/employees", method = RequestMethod.POST)
+    public ResponseEntity<Employee> addNewEmployee(@RequestBody Employee employee) {
+        Employee added = employeeService.save(employee);
+        return new ResponseEntity<>(added, HttpStatus.CREATED);
     }
 
-    @GetMapping("/updateForm")
-    public String showFormForUpdate(@RequestParam("id") Long id, Model model) {
-        Employee employee = employeeService.getEmployeeById(id);
-        model.addAttribute("employee", employee);
-        return "employee-form";
-    }
 
-    @GetMapping("/delete")
-    public String deleteCustomer(@RequestParam("id") Long id) {
-        employeeService.deleteEmployee(id);
-        return "redirect:/employee/list";
+    @RequestMapping(value = "/employees/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Employee> deleteEmployee(@PathVariable Long id) {
+        employeeService.deleteById(id);
+        return new ResponseEntity<>(employeeService.getById(id), HttpStatus.NO_CONTENT);
     }
 }
