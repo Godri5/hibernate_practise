@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,10 +20,6 @@ public class Project {
 
     private String project_name;
 
-    @ManyToMany
-    @JoinTable(name = "projects_employees",
-            joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "project_id"),
-            inverseJoinColumns = @JoinColumn(name = "employees_id", referencedColumnName = "employees_id"))
-    private List<Employee> employees = new ArrayList<>();
-
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "projects_ids")
+    private List<Employee> employees;
 }

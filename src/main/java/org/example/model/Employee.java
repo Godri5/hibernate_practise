@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,15 +15,17 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "employees_id", nullable = false)
+    @Column(name = "employee_id", nullable = false)
     private Long id;
 
     private String employee_name;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "employees")
-    private List<Project> projects = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @JoinTable(name = "employees_projects",
+            joinColumns = {@JoinColumn(name = "employees_id", referencedColumnName = "employee_id")},
+            inverseJoinColumns = {@JoinColumn(name = "projects_ids", referencedColumnName = "project_id")})
+    private List<Project> projects_ids;
 
-    @OneToMany(mappedBy = "employee")
-    private List<Position> positions = new ArrayList<>();
+    private Long position_id;
 
 }

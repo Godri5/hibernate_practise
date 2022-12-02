@@ -14,7 +14,7 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "customer_id")
     private Long id;
 
     @Column(name = "customer_name")
@@ -22,9 +22,4 @@ public class Customer {
 
     @Column(name = "email")
     private String email;
-
-    @ManyToOne
-    @JoinColumn(name = "project_id")
-    private Project projects;
-
 }
