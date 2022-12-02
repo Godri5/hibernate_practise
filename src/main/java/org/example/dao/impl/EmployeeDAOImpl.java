@@ -41,7 +41,7 @@ public class EmployeeDAOImpl implements EntityDAO<Employee> {
 
     @Override
     public Employee save(Employee entity) {
-        getCurrentSession().saveOrUpdate(entity);
+        getCurrentSession().save(entity);
         return entity;
     }
 

@@ -18,8 +18,8 @@ public class Position {
 
     private String position_name;
 
-    @ManyToOne
-    @JoinColumn(name = "employees_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "employees_id", referencedColumnName = "position_id")
     private Employee employee;
 
 

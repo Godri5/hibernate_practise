@@ -15,18 +15,17 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "employees_id", nullable = false)
+    @Column(name = "employee_id", nullable = false)
     private Long id;
 
     private String employee_name;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinTable(name = "employees_projects",
-            joinColumns = {@JoinColumn(name = "employees_id")},
-            inverseJoinColumns = {@JoinColumn(name = "project_id")})
-    private List<Project> projects;
+            joinColumns = {@JoinColumn(name = "employees_id", referencedColumnName = "employee_id")},
+            inverseJoinColumns = {@JoinColumn(name = "projects_ids", referencedColumnName = "project_id")})
+    private List<Project> projects_ids;
 
-    @OneToMany(mappedBy = "employee")
-    private List<Position> positions;
+    private Long position_id;
 
 }

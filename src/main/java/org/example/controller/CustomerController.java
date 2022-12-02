@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@Api(value = "customer service")
+@Api(value = "customer controller")
 public class CustomerController {
 
     @Autowired

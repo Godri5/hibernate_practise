@@ -20,6 +20,6 @@ public class Project {
 
     private String project_name;
 
-    @ManyToMany(mappedBy = "projects")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "projects_ids")
     private List<Employee> employees;
 }
